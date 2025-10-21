@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal Todo List</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>📝 My Todo List</h1>
+            <h1>📝 <span th:text="${title}"></span></h1>
         </header>
-
         <div class="add-todo-section">
             <input type="text" id="todoTitle" placeholder="What needs to be done?" />
             <textarea id="todoDescription" placeholder="Description (optional)"></textarea>
