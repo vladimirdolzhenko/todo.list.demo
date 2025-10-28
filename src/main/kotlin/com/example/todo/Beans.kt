@@ -1,10 +1,9 @@
 package com.example.todo
 
-import com.example.todo.model.Priority
 import com.example.todo.model.Todo
 import com.example.todo.service.TodoService
 import org.springframework.beans.factory.BeanRegistrarDsl
-import org.springframework.core.env.Environment
+import org.springframework.core.env.PropertyResolver
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.web.servlet.function.bodyWithType
@@ -16,14 +15,12 @@ class Beans: BeanRegistrarDsl({
 
 fun mainRouter(
     todoService: TodoService,
-    env: Environment
+    resolver: PropertyResolver
 ) = router {
     GET("/") {
-        val model = buildMap<String, Any> {
-            put("todos", todoService.getAllTodos())
-            put("priorities", Priority.values())
-            put("title", env.getProperty("application.title", "Application title"))
-        }
+        val model = mapOf(
+            "title" to resolver.getProperty("application.title", String::class.java, "Application title")
+        )
         ok().render("index", model)
     }
 
@@ -58,7 +55,9 @@ fun mainRouter(
 
     PUT("/api/todos/{id}") { request ->
         val id = request.pathVariable("id").toLong()
+
         val todo: Todo = request.body(Todo::class.java)
+        
         todoService.updateTodo(id, todo)?.let {
             ok().contentType(APPLICATION_JSON).bodyWithType(it)
         } ?: notFound().build()
@@ -77,7 +76,7 @@ fun mainRouter(
         if (deleted) noContent().build() else notFound().build()
     }
 
-    DELETE("/api/todos/completed") { request ->
+    DELETE("/api/todos/completed") {
         val count = todoService.deleteCompletedTodos()
         ok().body(count)
     }
