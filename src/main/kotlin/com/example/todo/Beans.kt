@@ -10,9 +10,12 @@ import org.springframework.web.servlet.function.bodyWithType
 import org.springframework.web.servlet.function.router
 
 class Beans: BeanRegistrarDsl({
-    registerBean(::mainRouter)
+    registerBean { mainRouter(bean(), bean()) }
 })
 
+/**
+ * Main router of Todo list app
+ */
 fun mainRouter(
     todoService: TodoService,
     resolver: PropertyResolver
@@ -22,6 +25,10 @@ fun mainRouter(
             "title" to resolver.getProperty("application.title", String::class.java, "Application title")
         )
         ok().render("index", model)
+    }
+
+    OPTIONS("") { request ->
+        ok().build()
     }
 
     GET("/api/todos/{id}") { request ->
@@ -57,7 +64,7 @@ fun mainRouter(
         val id = request.pathVariable("id").toLong()
 
         val todo: Todo = request.body(Todo::class.java)
-        
+
         todoService.updateTodo(id, todo)?.let {
             ok().contentType(APPLICATION_JSON).bodyWithType(it)
         } ?: notFound().build()

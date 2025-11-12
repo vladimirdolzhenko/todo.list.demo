@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * doc of repo
+ */
 @Repository
 public interface TodoRepository extends JpaRepository<Todo, Long> {
 
