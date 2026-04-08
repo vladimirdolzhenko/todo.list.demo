@@ -39,12 +39,12 @@ based on Kotlin 2.0+ compiler
 
 # K2 mode adoption
 
-2025.2 IJ Ultimate:
+2025.3 IJ Ultimate:
 
-| Mode | Adoption    |
-|------|-------------|
-| K1   | 2.3-2.7%    |
-| K2   | 97.3-97.7%  |
+| Mode | Adoption |
+|------|----------|
+| K1   | ~ 1%     |
+| K2   | > 98%    |
 
 ---
 
@@ -92,6 +92,12 @@ Replace `resolver.getProperty`
 
 - router DSL
 - jpa entity
+
+---
+
+# Kotlin JPA & Spring compiler plugin
+
+- Redundant zero-parameter constructor in `Todo` entity 
 
 ---
 
