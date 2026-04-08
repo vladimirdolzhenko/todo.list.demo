@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Import
 @Import(Beans::class)
 @SpringBootApplication
 @EnableConfigurationProperties
-class TodoApplication
+open class TodoApplication
 
 fun main(args: Array<String>) {
     SpringApplication.run(TodoApplication::class.java, *args)

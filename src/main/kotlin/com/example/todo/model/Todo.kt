@@ -22,15 +22,19 @@ data class Todo(
     @Column(nullable = false)
     var priority: Priority = Priority.MEDIUM,
 
-    @Column(name = "created_at", nullable = false, updatable = false)
-    val createdAt: LocalDateTime = LocalDateTime.now(),
+    @Column(name = "created_at", nullable = true, updatable = false)
+    var createdAt: LocalDateTime? = LocalDateTime.now(),
 
     @Column(name = "updated_at")
-    var updatedAt: LocalDateTime = LocalDateTime.now(),
+    var updatedAt: LocalDateTime? = LocalDateTime.now(),
 
     @Column(name = "due_date")
     var dueDate: LocalDateTime? = null
-)
+) {
+
+    constructor(): this(title = "")
+}
+
 
 enum class Priority {
     LOW, MEDIUM, HIGH, URGENT
